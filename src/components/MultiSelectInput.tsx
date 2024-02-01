@@ -77,7 +77,7 @@ function MultiSelectInput() {
             ) : null
           }
         </div>
-        {isDuplicateValue && <p>Item is already on the list</p>}
+        {isDuplicateValue && <p className={styles.error}>Item is already on the list</p>}
       </div>
   )
 }

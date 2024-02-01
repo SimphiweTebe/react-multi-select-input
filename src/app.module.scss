@@ -18,3 +18,13 @@ body {
   max-width: 1200px;
   margin: 40px auto;
 }
+
+.heading {
+  margin-bottom: 80px;
+  font-weight: 500;
+
+  span {
+    font-size: 1.3rem;
+    color: #bbb;
+  }
+}
