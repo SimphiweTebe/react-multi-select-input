@@ -17,8 +17,8 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("")
   const [suggestions, setSuggestions] = useState<IUserType[]>([])
   const [selectedUsers, setSelectedUsers] = useState<IUserType[]>([])
+  const [isDuplicateValue, setIsDuplicateValue] = useState(false)
 
-  const [selectUserSet, setSelectedUserSet] = useState<Set<IUserType[]>>(new Set())
 
   useEffect(()=> {
     const fetchData = async () => {
@@ -39,29 +39,36 @@ function App() {
   }, [searchTerm])
 
   const handleUserSelect = (user: IUserType)=> {
-   setSelectedUsers([...selectedUsers, user])
-  //  setSelectedUserSet([...selectUserSet, user.email])
-   setSearchTerm("")
-   setSuggestions([])
+    const filterdUsers = selectedUsers.filter(item => item.email !== user.email)
+    const hasUserValue = selectedUsers.some((item)=> item.email === user.email)
+    hasUserValue && setIsDuplicateValue(true)
+    setSelectedUsers([...filterdUsers, user])
+    setSearchTerm("")
+    setSuggestions([])
+  }
+
+  const handPillClick = (user: IUserType)=> {
+    const filterdUsers = selectedUsers.filter(item => item.email !== user.email)
+    setSelectedUsers(filterdUsers)
   }
 
   return (
     <main className={styles.wrapper}>
       <div className={styles.multiSelectWrapper}>
         <div className={styles.multiSelectInput}>
-          {/* Pill component */}
           {
-            selectedUsers.map(user => <Pill title={user.firstName} key={user.email}/>)
+            selectedUsers.map(user => <Pill user={user} key={user.email} onClick={handPillClick} />)
           }
-          {/* input component */}
           <input 
             type="text"
             value={searchTerm}
-            onChange={(e)=> setSearchTerm(e.target.value)}
+            onChange={(e)=> {
+              setIsDuplicateValue(false)
+              setSearchTerm(e.target.value)
+            }}
             placeholder='Search for a user'
           />
-
-          {/* suggestion list */}
+          
           {
             suggestions.length ? (
               <ul className={styles.suggestionList}>
@@ -74,6 +81,7 @@ function App() {
             ) : null
           }
         </div>
+        {isDuplicateValue && <p>User already on the list</p>}
       </div>
     </main>
   )

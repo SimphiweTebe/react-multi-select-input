@@ -1,9 +1,10 @@
 import React from 'react'
 import styles from '../app.module.scss'
+import { IUserType } from '../App'
 
-function Pill({ title }: { title: string}) {
+function Pill({ user, onClick }: { user: IUserType, onClick(user: IUserType): void}) {
   return (
-    <div className={styles.pill}>{title} &times;</div>
+    <div className={styles.pill} onClick={()=> onClick(user)}>{user.firstName} &times;</div>
   )
 }
 
