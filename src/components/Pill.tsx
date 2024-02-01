@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../app.module.scss'
+import styles from './components.module.scss'
 import { IUserType } from '../App'
 
 function Pill({ user, onClick }: { user: IUserType, onClick(user: IUserType): void}) {
